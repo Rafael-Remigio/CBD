@@ -1,0 +1,36 @@
+set mykey somevalue
+get mkey
+get mykey
+set counter 100
+incr counter
+get counter
+incr counter
+incrby counter 24
+dcrby counter 10
+decrby counter 10
+decr counter
+mset a 20 b 30 c 40
+mget a b c
+mget a b 
+exist a
+exists a
+exists ab
+type mykey
+type counter
+del mykey
+type mykey
+expire mykey 10
+set mykey value
+expire mykey 10
+get mykey
+set mykey value
+expire mykey 10
+ttl mykey
+rpush lista "here"
+rpush lista a b c 
+lpush lista "now this is first"
+lista
+lrange lista 0 -1
+lrange lista 0 -2
+lrange lista 0 -4
+lrange lista 0 -1

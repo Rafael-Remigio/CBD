@@ -1,0 +1,5 @@
+to run a file with redis commands
+
+	cat /tmp/commands.txt | redis-cli
+	
+	redis -cli < /tmp/commands.txt  

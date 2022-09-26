@@ -1,0 +1,19 @@
+rpush mylist 1 2 3 4 5
+ltrim mylist 0 2
+lrange mylist 0 -1
+
+sadd myset 1 2 3
+smembers myset
+sismember myset 2
+sismember myset 3
+sismember myset 20
+
+sadd news:1000:tags 1 2 5 77
+
+
+zadd hackers 1940 "Alan Kay"
+zadd hackers 1957 "Sophie Wilson"
+zadd hackers 1953 "Richard Stallman"
+zrange hackers 0 -1
+zrevrange hackers 0 -1
+zrange hackers 0 -1 withscores

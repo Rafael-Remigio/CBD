@@ -1,0 +1,9 @@
+
+./redis-cli < fileName.txt
+
+
+or 
+
+
+cat fileName.txt | redis-cli --pipe
+

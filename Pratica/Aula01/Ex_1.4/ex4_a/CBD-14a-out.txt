@@ -1,0 +1,25 @@
+First we need to compile the java project,
+i usually use 
+	mvn clean package
+
+then we run the project with 
+	mvn exec:java
+
+then we input the name we want to search, and when we want to exit we type exit
+
+Enter name: aa
+aaren
+aarika
+Enter name: sus
+susan
+susana
+susanetta
+susann
+susanna
+susannah
+susanne
+susette
+susi
+susie
+susy
+Enter name: exit

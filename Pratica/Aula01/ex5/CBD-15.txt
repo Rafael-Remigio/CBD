@@ -1,0 +1,9 @@
+In this program i used 2 types of DataStructures
+
+A set for the with all the user called "users"
+A set for the users we are following
+
+A collection of lists:
+	a postList for each user
+	2 lists serving  as the inbox for the user, one for the messager and another for the sender
+ 

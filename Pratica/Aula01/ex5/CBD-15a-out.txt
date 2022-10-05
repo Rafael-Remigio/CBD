@@ -1,0 +1,124 @@
+It allows multiple users to connect to the localhost database and send Messages, make posts and follow people
+
+
+
+
+This is Twitter2.0 (not really pls don't sue me)
+Let's make an account
+Insert your name:
+Remigio
+Your user has been created
+
+Choose a number
+1.) Follow a friend.
+2.) Send a message to another user
+3.) Read messages
+4.) Make a post
+5.) See posts from people you follow
+6.) See all users 
+7.) List people I follow
+8.) Unfollow a friend.
+9.) Exit
+1
+Who do you want to follow?: Bruno
+Started following Bruno
+
+Choose a number
+1.) Follow a friend.
+2.) Send a message to another user
+3.) Read messages
+4.) Make a post
+5.) See posts from people you follow
+6.) See all users 
+7.) List people I follow
+8.) Unfollow a friend.
+9.) Exit
+1
+Who do you want to follow?: Teles
+Started following Teles
+
+Choose a number
+1.) Follow a friend.
+2.) Send a message to another user
+3.) Read messages
+4.) Make a post
+5.) See posts from people you follow
+6.) See all users 
+7.) List people I follow
+8.) Unfollow a friend.
+9.) Exit
+6
+Bruno
+Peterson
+Marcel
+Teles
+Remigio
+
+Choose a number
+1.) Follow a friend.
+2.) Send a message to another user
+3.) Read messages
+4.) Make a post
+5.) See posts from people you follow
+6.) See all users 
+7.) List people I follow
+8.) Unfollow a friend.
+9.) Exit
+5
+Bruno) I hate soup
+Teles) Has anyone read 1984 I heard it's pretty good
+
+Choose a number
+1.) Follow a friend.
+2.) Send a message to another user
+3.) Read messages
+4.) Make a post
+5.) See posts from people you follow
+6.) See all users 
+7.) List people I follow
+8.) Unfollow a friend.
+9.) Exit
+4
+What are we posting about, what is on your mind?: I am thinking about getting a second cat
+Post was created and posted successfuly
+
+Choose a number
+1.) Follow a friend.
+2.) Send a message to another user
+3.) Read messages
+4.) Make a post
+5.) See posts from people you follow
+6.) See all users 
+7.) List people I follow
+8.) Unfollow a friend.
+9.) Exit
+2
+Who we texting?: Teles
+And what are we texting?: Yo u got any cats?          
+Message was sent to Teles
+
+Choose a number
+1.) Follow a friend.
+2.) Send a message to another user
+3.) Read messages
+4.) Make a post
+5.) See posts from people you follow
+6.) See all users 
+7.) List people I follow
+8.) Unfollow a friend.
+9.) Exit
+3
+Teles) Nope sry man, maybe you can ask Peterson, he likes animals
+
+Choose a number
+1.) Follow a friend.
+2.) Send a message to another user
+3.) Read messages
+4.) Make a post
+5.) See posts from people you follow
+6.) See all users 
+7.) List people I follow
+8.) Unfollow a friend.
+9.) Exit
+9
+Bye see you tomorrow

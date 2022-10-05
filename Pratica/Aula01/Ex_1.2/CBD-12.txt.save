@@ -1,6 +1,0 @@
-
-./redis-cli < <file_name>
-
-or 
-
-./redis-cli < temp.redisCmds

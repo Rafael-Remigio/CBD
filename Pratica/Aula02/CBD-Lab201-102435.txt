@@ -1,0 +1,53 @@
+Mongo DB notas:
+
+
+	To create Database
+
+		use DATABASE_NAME
+		
+	To show databases
+		
+		> show dbs
+		local     0.78125GB
+		test      0.23012GB
+
+
+	To drop database
+		db.dropDatabase()
+
+
+	Mongo Collections
+		
+		MongoDB stores documents in collections. Collections are analogous to tables in relational databases.
+		
+		
+	
+Mongo CRUD
+
+	Create
+		– db.collection.insertOne()
+		– db.collection.insertMany()
+		
+		example:
+			db.movies.insertMany([
+					{
+						title: 'Titanic',
+						year: 1997,
+						genres: [ 'Drama', 'Romance' ],
+
+					},
+					{
+						title: 'The Dark Knight',
+						year: 2008,
+						genres: [ 'Action', 'Crime', 'Drama' ],
+
+					}
+				])
+			
+			db.movies.insertOne({
+				title: 'Spirited Away',
+				year: 2001,
+				genres: [ 'Animation', 'Adventure', 'Family' ]
+			})
+
+

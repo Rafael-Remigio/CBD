@@ -21,10 +21,16 @@ Mongo DB notas:
 		MongoDB stores documents in collections. Collections are analogous to tables in relational databases.
 		
 		
+		To create a collection
+			db.createCollection(name, options)
+		To drop a collection
+			db.COLLECTION_NAME.drop()
+
 	
 Mongo CRUD
 
 	Create
+		db.COLLECTION_NAME.insert(document)
 		– db.collection.insertOne()
 		– db.collection.insertMany()
 		
@@ -50,4 +56,126 @@ Mongo CRUD
 				genres: [ 'Animation', 'Adventure', 'Family' ]
 			})
 
+	Ready/Query
 
+		>db.COLLECTION_NAME.find()
+
+		>db.COLLECTION_NAME.find().pretty()	
+			pretty makes the data more readable
+
+		Where clause
+
+			Equality				{<key>:{$eg;<value>}}
+			Less Than				{<key>:{$lt:<value>}}
+			Less Than Equals		{<key>:{$lte:<value>}}	
+			Greater Than			{<key>:{$gt:<value>}}	
+			Greater Than Equals		{<key>:{$gte:<value>}}	
+			Not Equals				{<key>:{$ne:<value>}}	
+			Values in an array		{<key>:{$in:[<value1>, <value2>,……<valueN>]}}	
+			Values not in an array	{<key>:{$nin:<value>}}	
+
+		AND OR conditions
+
+			And	>db.mycol.find({ $and: [ {<key1>:<value1>}, { <key2>:<value2>} ] })
+			Or  >db.mycol.find({ $or: [ {key1: value1}, {key2:value2}]})
+
+			example of both together
+			'where likes>10 AND (by = 'tutorials point' OR title = 'MongoDB Overview')'
+
+				db.mycol.find({"likes": {$gt:10}, $or: [{"by": "tutorials point"},{"title": "MongoDB Overview"}]})
+
+		NOR condition
+			>db.COLLECTION_NAME.find({ $not: [ {key1: value1}, {key2:value2} ]})
+
+		NOT condition
+			>db.COLLECTION_NAME.find({$NOT: [ {key1: value1}, {key2:value2}]})
+
+		Tests whether a given field exists / not exists
+			
+			$exists
+		
+		Selects documents if a field is of the specified type.
+
+			$type
+
+		Tests whether the field value matches a regular expression REGEX
+			
+			$regex
+		
+		Performs text search (text index must exists)
+
+			$text
+
+	
+	Update
+
+		The basic syntax of update() method is as follows
+			>db.COLLECTION_NAME.update(SELECTION_CRITERIA, UPDATED_DATA)
+
+			By default, MongoDB will update only a single document. To update multiple documents, you need to set a parameter 'multi' to true.
+				>db.mycol.update({'title':'MongoDB Overview'},{$set:{'title':'New MongoDB Tutorial'}},{multi:true})
+
+		The save() method replaces the existing document with the new document passed in the save() method.
+			>db.COLLECTION_NAME.save({_id:ObjectId(),NEW_DATA})
+
+
+		Mostly we will user
+
+			updateOne()
+			updateMany()
+
+	Delete
+
+		We can use 
+		
+		->remove
+			>db.COLLECTION_NAME.remove(DELLETION_CRITTERIA)
+			>Remove Only One
+				>db.COLLECTION_NAME.remove(DELETION_CRITERIA,1)
+
+		-> delete	
+			db.collection.deleteOne(filter, options)
+			db.collection.deleteMany(filter, options)
+
+
+
+Sorting Data
+
+	>db.COLLECTION_NAME.find().sort({KEY:1})
+
+
+
+Indexes is Mongo
+
+
+	Indexes support the efficient resolution of queries
+
+	createIndex() Method
+		one field
+			>db.COLLECTION_NAME.createIndex({KEY:1})
+		multiple fields
+			>db.mycol.createIndex({"title":1,"description":-1})
+
+
+	dropIndex() method
+
+		>db.COLLECTION_NAME.dropIndex({KEY:1})
+
+	getIndexes() -> This method returns the description of all the indexes int the collection.
+
+		>db.COLLECTION_NAME.getIndexes()
+
+
+Aggregation
+
+	Aggregations operations process data records and return computed results. Aggregation operations group values from multiple documents together, and can perform a variety of operations on the grouped data to return a single result.
+
+	>db.COLLECTION_NAME.aggregate(AGGREGATE_OPERATION)
+
+	Example
+
+		> db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$sum : 1}}}])
+			
+			corresponds in SQL to 
+
+			select by_user, count(*) from mycol group by by_user

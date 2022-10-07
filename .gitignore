@@ -38,3 +38,9 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# mongo database
+*.wt
+*.lock
+*.turtle
+*.data

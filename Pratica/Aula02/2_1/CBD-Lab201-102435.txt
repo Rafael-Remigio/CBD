@@ -1,3 +1,33 @@
+Exercicio 2.1 c)
+
+Para criar o servidor
+
+	mongod --dbpath <path to data directory>
+
+
+In another terminal we can then run the mongo command
+and interact with the server throught the command line
+
+	> db
+	test
+	> show dbs
+	admin   0.000GB
+	config  0.000GB
+	local   0.000GB
+
+
+Import collection into the mongo server
+
+rafael@rafael-K55VJ:~/Desktop/LEI/CBD/Pratica/Aula02$ mongoimport --db cbd --collection restaurants --drop --file restaurants.json
+2022-10-07T21:57:23.160+0100	connected to: mongodb://localhost/
+2022-10-07T21:57:23.161+0100	dropping: cbd.restaurants
+2022-10-07T21:57:23.399+0100	3772 document(s) imported successfully. 0 document(s) failed to import.
+
+
+
+
+Resumo da Documentação do site https://www.tutorialspoint.com/mongodb/:
+
 Mongo DB notas:
 
 

@@ -59,5 +59,44 @@ Ex 2_2
     > db.restaurants.find({ "address.coord.0": { $lt: -95.7}} )
         { "_id" : ObjectId("634092b39b62a58e13dd07d6"), "address" : { "building" : "3707", "coord" : [ -101.8945214, 33.5197474 ], "rua" : "82 Street", "zipcode" : "11372" }, "localidade" : "Queens", "gastronomia" : "American", "grades" : [ { "date" : ISODate("2014-06-04T00:00:00Z"), "grade" : "A", "score" : 12 }, { "date" : ISODate("2013-11-07T00:00:00Z"), "grade" : "B", "score" : 19 }, { "date" : ISODate("2013-05-17T00:00:00Z"), "grade" : "A", "score" : 11 }, { "date" : ISODate("2012-08-29T00:00:00Z"), "grade" : "A", "score" : 11 }, { "date" : ISODate("2012-04-03T00:00:00Z"), "grade" : "A", "score" : 12 }, { "date" : ISODate("2011-11-16T00:00:00Z"), "grade" : "A", "score" : 7 } ], "nome" : "Burger King", "restaurant_id" : "40534067" }
         { "_id" : ObjectId("634092b39b62a58e13dd0b41"), "address" : { "building" : "15259", "coord" : [ -119.6368672, 36.2504996 ], "rua" : "10 Avenue", "zipcode" : "11357" }, "localidade" : "Queens", "gastronomia" : "Italian", "grades" : [ { "date" : ISODate("2014-09-04T00:00:00Z"), "grade" : "A", "score" : 11 }, { "date" : ISODate("2014-03-26T00:00:00Z"), "grade" : "A", "score" : 8 }, { "date" : ISODate("2013-03-04T00:00:00Z"), "grade" : "A", "score" : 10 }, { "date" : ISODate("2012-09-27T00:00:00Z"), "grade" : "A", "score" : 10 }, { "date" : ISODate("2012-04-20T00:00:00Z"), "grade" : "A", "score" : 7 }, { "date" : ISODate("2011-11-23T00:00:00Z"), "grade" : "C", "score" : 34 } ], "nome" : "Cascarino'S", "restaurant_id" : "40668681" }
-
+        (...)
 9)
+    > db.restaurants.find({ $and: [ {"gastronomia": { $ne: "American"} } , {"grades.score" : {$gt: 70}} , {"address.coord.0": {$lt: -65} } ] })
+        { "_id" : ObjectId("634092b39b62a58e13dd038c"), "address" : { "building" : "345", "coord" : [ -73.9864626, 40.7266739 ], "rua" : "East 6 Street", "zipcode" : "10003" }, "localidade" : "Manhattan", "gastronomia" : "Indian", "grades" : [ { "date" : ISODate("2014-09-15T00:00:00Z"), "grade" : "A", "score" : 5 }, { "date" : ISODate("2014-01-14T00:00:00Z"), "grade" : "A", "score" : 8 }, { "date" : ISODate("2013-05-30T00:00:00Z"), "grade" : "A", "score" : 12 }, { "date" : ISODate("2013-04-24T00:00:00Z"), "grade" : "P", "score" : 2 }, { "date" : ISODate("2012-10-01T00:00:00Z"), "grade" : "A", "score" : 9 }, { "date" : ISODate("2012-04-06T00:00:00Z"), "grade" : "C", "score" : 92 }, { "date" : ISODate("2011-11-03T00:00:00Z"), "grade" : "C", "score" : 41 } ], "nome" : "Gandhi", "restaurant_id" : "40381295" }
+        { "_id" : ObjectId("634092b39b62a58e13dd04ee"), "address" : { "building" : "130", "coord" : [ -73.984758, 40.7457939 ], "rua" : "Madison Avenue", "zipcode" : "10016" }, "localidade" : "Manhattan", "gastronomia" : "Pizza/Italian", "grades" : [ { "date" : ISODate("2014-12-24T00:00:00Z"), "grade" : "Z", "score" : 31 }, { "date" : ISODate("2014-06-17T00:00:00Z"), "grade" : "C", "score" : 98 }, { "date" : ISODate("2013-12-12T00:00:00Z"), "grade" : "C", "score" : 32 }, { "date" : ISODate("2013-05-22T00:00:00Z"), "grade" : "B", "score" : 21 }, { "date" : ISODate("2012-05-02T00:00:00Z"), "grade" : "A", "score" : 11 } ], "nome" : "Bella Napoli", "restaurant_id" : "40393488" }
+        (...)
+
+10)
+
+    Para este exercicio penso termos 2 formas de resolver: 1 com o REGEX e outra criando um Text Index e usar text Search
+
+    com o regex
+
+        > db.restaurants.find({"nome": {$regex: "Wil.*"}},{restaurant_id :1 , "localidade":1 , "gastronomia":1 ,_id : 0})
+            { "localidade" : "Brooklyn", "gastronomia" : "Delicatessen", "restaurant_id" : "40356483" }
+            { "localidade" : "Bronx", "gastronomia" : "American", "restaurant_id" : "40357217" }
+
+    usando text search
+
+        criamos o index
+        
+        > db.restaurants.createIndex( {nome: "text"  } )
+            {
+	            "numIndexesBefore" : 1,
+	            "numIndexesAfter" : 2,
+	            "createdCollectionAutomatically" : false,
+	            "ok" : 1
+            }
+
+        depois usamos o index
+
+        > db.restaurants.find({$text:{$search:"Wil"}},{restaurant_id :1 , "localidade":1 , "gastronomia":1 ,_id : 0})
+
+
+11)
+
+    > db.restaurants.find({"localidade": "Bronx","gastronomia": { $in : ["American","Chinese"]} },{nome:1 , "localidade":1 , "gastronomia":1 ,_id : 0})
+
+        { "localidade" : "Bronx", "gastronomia" : "American", "nome" : "Wild Asia" }
+        { "localidade" : "Bronx", "gastronomia" : "Chinese", "nome" : "Happy Garden" }
+

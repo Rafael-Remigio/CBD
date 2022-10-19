@@ -49,8 +49,11 @@ Ex 2_2
 7)
     // Duvida: este codigo não funciona mas devia
 
-    > db.restaurants.find( {"$and": [{    "grades.score":{ "$gt" :  80  }  },{ "grades.score":{ "$lt" :  100 }  }]}).pretty()
-    > db.restaurants.find({"grades.score":{$gt:80,$lt:100}})
+    this does not work we have to use $elemMatch // > db.restaurants.find( {"$and": [{    "grades.score":{ "$gt" :  80  }  },{ "grades.score":{ "$lt" :  100 }  }]}).pretty()
+
+    > db.restaurants.find( { "grades": { $elemMatch: { "score": { $gt: 80, $lt: 100 }} } } )
+    > db.restaurants.find( { "grades.score": { $elemMatch: { $gt: 80, $lt: 100 } } } )
+
 
 8)
                             # eu acho que a notação de longitude e latitude é sempre com longitude no 0, mas nao tenho a certeza
@@ -68,29 +71,12 @@ Ex 2_2
 
 10)
 
-    Para este exercicio penso termos 2 formas de resolver: 1 com o REGEX e outra criando um Text Index e usar text Search
-
-    com o regex
+    Para este exercicio penso eu termos 2 formas de resolver: 1 com o REGEX e outra criando um Text Index e usar text Search
+    eu usei regex;
 
         > db.restaurants.find({"nome": {$regex: "Wil.*"}},{restaurant_id :1 , "localidade":1 , "gastronomia":1 ,_id : 0})
             { "localidade" : "Brooklyn", "gastronomia" : "Delicatessen", "restaurant_id" : "40356483" }
             { "localidade" : "Bronx", "gastronomia" : "American", "restaurant_id" : "40357217" }
-
-    usando text search
-
-        criamos o index
-        
-        > db.restaurants.createIndex( {nome: "text"  } )
-            {
-	            "numIndexesBefore" : 1,
-	            "numIndexesAfter" : 2,
-	            "createdCollectionAutomatically" : false,
-	            "ok" : 1
-            }
-
-        depois usamos o index
-
-        > db.restaurants.find({$text:{$search:"Wil"}},{restaurant_id :1 , "localidade":1 , "gastronomia":1 ,_id : 0})
 
 
 11)
@@ -99,4 +85,37 @@ Ex 2_2
 
         { "localidade" : "Bronx", "gastronomia" : "American", "nome" : "Wild Asia" }
         { "localidade" : "Bronx", "gastronomia" : "Chinese", "nome" : "Happy Garden" }
+        (...)
 
+12)
+
+    > db.restaurants.find({"localidade": { $in: ["Bronx","Staten Island","Queens"]} },{"restaurant_id":1,"nome":1 , "localidade":1 , "gastronomia":1 ,_id : 0})
+    { "localidade" : "Bronx", "gastronomia" : "Bakery", "nome" : "Morris Park Bake Shop", "restaurant_id" : "30075445" }
+    { "localidade" : "Queens", "gastronomia" : "American", "nome" : "Brunos On The Boulevard", "restaurant_id" : "40356151" }
+    (...)
+
+13)
+
+    > db.restaurants.find({ "grades": { $elemMatch: { "score": { $lte: 3 }} } },{"nome":1 , "localidade":1 , "gastronomia":1,"grades.score":1,_id:0} )
+
+    { "localidade" : "Bronx", "gastronomia" : "Bakery", "grades" : [ { "score" : 2 }, { "score" : 6 }, { "score" : 10 }, { "score" : 9 }, { "score" : 14 } ], "nome" : "Morris Park Bake Shop" }
+    { "localidade" : "Manhattan", "gastronomia" : "Irish", "grades" : [ { "score" : 2 }, { "score" : 11 }, { "score" : 12 }, { "score" : 12 } ], "nome" : "Dj Reynolds Pub And Restaurant" }
+    (...)
+
+14)
+
+    > db.restaurants.find({ "grades": { $elemMatch: { "grade": "A","score":10 ,"date": ISODate("2014-08-11T00:00:00Z")} } },{"nome":1,"grades":1,_id:0} )
+
+    { "grades" : [ { "date" : ISODate("2014-08-11T00:00:00Z"), "grade" : "A", "score" : 10 }, { "date" : ISODate("2014-03-14T00:00:00Z"), "grade" : "A", "score" : 3 }, { "date" : ISODate("2013-01-16T00:00:00Z"), "grade" : "A", "score" : 10 }, { "date" : ISODate("2012-07-12T00:00:00Z"), "grade" : "A", "score" : 9 } ], "nome" : "Serendipity 3" }
+    { "grades" : [ { "date" : ISODate("2014-08-11T00:00:00Z"), "grade" : "A", "score" : 10 }, { "date" : ISODate("2013-08-30T00:00:00Z"), "grade" : "A", "score" : 12 }, { "date" : ISODate("2012-08-31T00:00:00Z"), "grade" : "A", "score" : 4 }, { "date" : ISODate("2012-04-13T00:00:00Z"), "grade" : "A", "score" : 9 } ], "nome" : "Mutual Of America" }
+    (...)
+
+15)
+
+    > db.restaurants.find({"grades.1.grade": "A", "grades.1.date": ISODate("2014-08-11T00:00:00Z")},{"restaurant_id":1,"nome":1,"grades" : {$slice : [1,1]},_id:0}).pretty()
+
+    { "grades" : [ { "date" : ISODate("2014-08-11T00:00:00Z"), "grade" : "A", "score" : 9 } ], "nome" : "Club Macanudo (Cigar Bar)", "restaurant_id" : "40526406" }
+    { "grades" : [ { "date" : ISODate("2014-08-11T00:00:00Z"), "grade" : "A", "score" : 10 } ], "nome" : "Gene'S Coffee Shop", "restaurant_id" : "40614916" }
+
+
+    

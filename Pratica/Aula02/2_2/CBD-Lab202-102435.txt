@@ -118,4 +118,76 @@ Ex 2_2
     { "grades" : [ { "date" : ISODate("2014-08-11T00:00:00Z"), "grade" : "A", "score" : 10 } ], "nome" : "Gene'S Coffee Shop", "restaurant_id" : "40614916" }
 
 
+16)
+
+    > db.restaurants.find({"address.coord.1": {$gt: 48, $lte:52} },{"nome":1,"restaurant_id":1,"address":1,_id:0}).pretty()
+
+
+17)
+
+    > db.restaurants.find({},{"nome":1,"gastronomia":1,"localidade":1,_id:0}).sort({"gastronomia":1,"localidade":-1})
+
+    { "localidade" : "Manhattan", "gastronomia" : "Afghan", "nome" : "Afghan Kebab House" }
+    { "localidade" : "Manhattan", "gastronomia" : "Afghan", "nome" : "Khyber Pass" }
+
+
+18)
+
+    > db.restaurants.find({"grades.grade": "A","gastronomia": {$ne: "American"}},{"nome":1,"localidade":1,"grades.grade":1,"gastronomia":1,_id:0}).sort({"gastronomia":-1})
+
+    { "localidade" : "Manhattan", "gastronomia" : "Vietnamese/Cambodian/Malaysia", "grades" : [ { "grade" : "A" }, { "grade" : "A" }, { "grade" : "C" }, { "grade" : "A" }, { "grade" : "A" } ], "nome" : "Thai Son" }
+    { "localidade" : "Queens", "gastronomia" : "Vietnamese/Cambodian/Malaysia", "grades" : [ { "grade" : "B" }, { "grade" : "A" }, { "grade" : "A" }, { "grade" : "P" }, { "grade" : "B" } ], "nome" : "Pho Bac Vietnamese Seafood Cuisine" }
+
+
+19)
+
+    > db.restaurants.aggregate([{"$group" : {_id:"$localidade", count:{$sum:1}}}])
     
+    { "_id" : "Manhattan", "count" : 1883 }
+    { "_id" : "Queens", "count" : 738 }
+    { "_id" : "Brooklyn", "count" : 684 }
+    { "_id" : "Bronx", "count" : 309 }
+    { "_id" : "Staten Island", "count" : 158 }
+
+20)
+
+
+    > db.restaurants.aggregate([{ $unwind: "$grades" },{$group : {_id:{nome:"$nome", restaurant_id:"$restaurant_id"}, averageScore:{$avg:"$grades.score"}}},{ $match: {averageScore: {$gt: 30}}}])
+
+    { "_id" : { "nome" : "Trinidad Golden Place", "restaurant_id" : "40825993" }, "averageScore" : 30.8 }
+    { "_id" : { "nome" : "West 79Th Street Boat Basin Cafe", "restaurant_id" : "40756344" }, "averageScore" : 36 }
+    { "_id" : { "nome" : "Live Bait Bar & Restaurant", "restaurant_id" : "40387237" }, "averageScore" : 32.6 }
+
+21)
+
+    > db.restaurants.aggregate([{ $unwind: "$grades" },{$group : {_id:{nome:"$nome", gastronomia:"$gastronomia" ,restaurant_id:"$restaurant_id"},coords: { $first: "$address.coord" }  ,sumScore:{$sum:"$grades.score"}}},{ $match: {sumScore: {$gt: 50}, "_id.gastronomia": "Portuguese","coords.0": {$lt: -60}}}])
+    
+    { "_id" : { "nome" : "Mateus Restaurant", "gastronomia" : "Portuguese", "restaurant_id" : "40394518" }, "coords" : [ -73.732315, 40.720725 ], "sumScore" : 67 }
+    { "_id" : { "nome" : "Pao", "gastronomia" : "Portuguese", "restaurant_id" : "40535455" }, "coords" : [ -74.0093371, 40.7258846 ], "sumScore" : 80 }
+
+22) 
+
+    > db.restaurants.aggregate({$unwind: "$grades"},{$group: {_id:"$nome",averageScore:{$avg: "$grades.score"}}},{$sort: {"averageScore":-1}},{$limit:3})
+    
+    { "_id" : "West 79Th Street Boat Basin Cafe", "averageScore" : 36 }
+    { "_id" : "Murals On 54/Randolphs'S", "averageScore" : 33.666666666666664 }
+    { "_id" : "Live Bait Bar & Restaurant", "averageScore" : 32.6 }
+
+
+23)
+
+    > db.restaurants.aggregate([{ $match: { "address.rua": "Fifth Avenue" }} ,{$group: {_id:"$gastronomia",rua: { $first: "$address.rua" } ,numGastronomias:{$count: {}}}},{$group: {_id:"$rua",numeroGastronomias:{$sum: 1}}}])
+    
+    { "_id" : "Fifth Avenue", "numeroGastronomias" : 4 }
+
+
+    (mongo has an insane syntax for insane people)
+
+24)
+
+    > db.restaurants.aggregate([{$group: {_id:"$gastronomia",rua: { $first: "$address.rua" } ,numGastronomias:{$count: {}}}},{$group: {_id:"$rua",numeroGastronomias:{$sum: 1}}},{$sort: {numeroGastronomias :-1}}])
+    
+    { "_id" : "Crossbay Boulevard", "numeroGastronomias" : 3 }
+    { "_id" : "Atlantic Avenue", "numeroGastronomias" : 3 }
+    { "_id" : "Broadway", "numeroGastronomias" : 3 }
+    { "_id" : "Third Avenue", "numeroGastronomias" : 2 }

@@ -191,3 +191,14 @@ Ex 2_2
     { "_id" : "Atlantic Avenue", "numeroGastronomias" : 3 }
     { "_id" : "Broadway", "numeroGastronomias" : 3 }
     { "_id" : "Third Avenue", "numeroGastronomias" : 2 }
+
+25)
+    26) 
+
+    27)
+
+    28)
+
+    29)
+
+    30)

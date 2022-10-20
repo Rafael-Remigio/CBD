@@ -1,0 +1,133 @@
+Crud examples in java
+All the functions are working in MongoTesting
+
+## testingFind 
+
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------------< com.cbd:mongo_test >-------------------------
+[INFO] Building mongo_test 1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- exec-maven-plugin:3.1.0:java (default-cli) @ mongo_test ---
+
+
+
+{"localidade": "Queens", "restaurant_id": "40367749"}
+{"localidade": "Manhattan", "restaurant_id": "40367797"}
+{"localidade": "Manhattan", "restaurant_id": "40368223"}
+{"localidade": "Bronx", "restaurant_id": "40369299"}
+{"localidade": "Bronx", "restaurant_id": "40369641"}
+{"localidade": "Bronx", "restaurant_id": "40374136"}
+{"localidade": "Manhattan", "restaurant_id": "40376493"}
+{"localidade": "Bronx", "restaurant_id": "40377124"}
+{"localidade": "Queens", "restaurant_id": "40379566"}
+{"localidade": "Brooklyn", "restaurant_id": "40380657"}
+{"localidade": "Queens", "restaurant_id": "40383151"}
+{"localidade": "Manhattan", "restaurant_id": "40385587"}
+{"localidade": "Bronx", "restaurant_id": "40390814"}
+{"localidade": "Manhattan", "restaurant_id": "40401217"}
+{"localidade": "Queens", "restaurant_id": "40512788"}
+{"localidade": "Manhattan", "restaurant_id": "40512868"}
+
+#################################################################################################
+
+## testInsert
+
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------------< com.cbd:mongo_test >-------------------------
+[INFO] Building mongo_test 1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- exec-maven-plugin:3.1.0:java (default-cli) @ mongo_test ---
+
+
+
+all added
+
+
+
+
+
+In the collection we can see it added:
+
+{
+	"_id" : ObjectId("6351c5917477c4540a3bf04c"),
+	"name" : "Dusty",
+	"breed" : "Cornish Rex",
+	"age" : 3
+}
+{
+	"_id" : ObjectId("6351c5917477c4540a3bf04d"),
+	"name" : "Faneca",
+	"breed" : "Balinese",
+	"age" : 16
+}
+{
+	"_id" : ObjectId("6351c5917477c4540a3bf04e"),
+	"name" : "BatMan",
+	"breed" : "Japanese Bobtail",
+	"age" : 13
+}
+{
+	"_id" : ObjectId("6351c5917477c4540a3bf04f"),
+	"name" : "Sebastian",
+	"breed" : "British Shorthair",
+	"age" : 4
+}
+{
+	"_id" : ObjectId("6351c5917477c4540a3bf050"),
+	"name" : "Dusty",
+	"breed" : "Exotic Shorthair",
+	"age" : 14
+}
+
+
+
+#################################################################################
+
+## Updating a document 
+
+
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------------< com.cbd:mongo_test >-------------------------
+[INFO] Building mongo_test 1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- exec-maven-plugin:3.1.0:java (default-cli) @ mongo_test ---
+
+
+
+Modified document count: 11
+
+
+
+
+
+In the collection we can see it updated:
+
+{
+	"_id" : ObjectId("6351c5917477c4540a3bf04e"),
+	"name" : "BatMan",
+	"breed" : "Japanese Bobtail",
+	"age" : 13,
+	"type" : "Very cute litle boy"
+}
+{
+	"_id" : ObjectId("6351c5917477c4540a3bf04f"),
+	"name" : "Sebastian",
+	"breed" : "British Shorthair",
+	"age" : 4,
+	"type" : "Very cute litle boy"
+}
+{
+	"_id" : ObjectId("6351c5917477c4540a3bf050"),
+	"name" : "Dusty",
+	"breed" : "Exotic Shorthair",
+	"age" : 14,
+	"type" : "Very cute litle boy"
+}
+
+

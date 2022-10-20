@@ -21,13 +21,9 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Projections;
+import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.InsertOneResult;
-
-
-
-
-
-
+import com.mongodb.client.result.UpdateResult;
 import com.mongodb.client.MongoDatabase;
 public class MongoTesting {
 
@@ -39,7 +35,7 @@ public class MongoTesting {
         
         // Replace the uri string with your MongoDB deployment's connection string
         String uri = "mongodb://localhost:8765";
-        testInsert(uri,5);
+        updateCats(uri);
     }
 
 
@@ -123,9 +119,36 @@ public class MongoTesting {
         }
     }
 
+    private static void updateCats(String uri) {
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            
+            MongoDatabase database = mongoClient.getDatabase("testJavaCrud");
+            MongoCollection<Document> collection = database.getCollection("cats");
+
+
+            Bson updates = Updates.combine(
+                    Updates.set("type", "Very cute litle boy"));
+            
+
+
+
+            System.out.println("\n\n");
+
+            try {
+                UpdateResult result = collection.updateMany(new Document(), updates);
+                System.out.println("Modified document count: " + result.getModifiedCount());
+            } catch (MongoException me) {
+                System.err.println("Unable to update due to an error: " + me);
+            }
+
+            
+            
+            System.out.println("\n\n");
+
+            
+        
+        }
+    }
+
 
 }
-/**
- * Hello world!
- *
- */

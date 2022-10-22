@@ -133,10 +133,11 @@ Ex 2_2
 
 18)
 
-    > db.restaurants.find({"grades.grade": "A","gastronomia": {$ne: "American"}},{"nome":1,"localidade":1,"grades.grade":1,"gastronomia":1,_id:0}).sort({"gastronomia":-1})
+    > db.restaurants.find({"localidade":"Brooklyn","grades.grade": "A","gastronomia": {$ne: "American"}},{"nome":1,"localidade":1,"grades.grade":1,"gastronomia":1,_id:0}).sort({"gastronomia":-1})
 
-    { "localidade" : "Manhattan", "gastronomia" : "Vietnamese/Cambodian/Malaysia", "grades" : [ { "grade" : "A" }, { "grade" : "A" }, { "grade" : "C" }, { "grade" : "A" }, { "grade" : "A" } ], "nome" : "Thai Son" }
-    { "localidade" : "Queens", "gastronomia" : "Vietnamese/Cambodian/Malaysia", "grades" : [ { "grade" : "B" }, { "grade" : "A" }, { "grade" : "A" }, { "grade" : "P" }, { "grade" : "B" } ], "nome" : "Pho Bac Vietnamese Seafood Cuisine" }
+    { "localidade" : "Brooklyn", "gastronomia" : "Vegetarian", "grades" : [ { "grade" : "A" }, { "grade" : "A" }, { "grade" : "A" } ], "nome" : "Bliss Bakery & Cafe" }
+    { "localidade" : "Brooklyn", "gastronomia" : "Vegetarian", "grades" : [ { "grade" : "A" }, { "grade" : "A" }, { "grade" : "A" }, { "grade" : "A" }, { "grade" : "A" }, { "grade" : "C" } ], "nome" : "Original Vegetarian Restaurant" }
+
 
 
 19)

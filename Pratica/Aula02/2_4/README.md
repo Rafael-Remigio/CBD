@@ -12,4 +12,12 @@ Funçoes para criar e testar indexes estão também no projecto maven mongo_test
 
 O output da criação e testagem está no ficheiro **IndexesOutput.txt**
 
+## 2_4 c)
 
+Escolhi fazer a querie número 
+
+15
+9
+14
+11
+18

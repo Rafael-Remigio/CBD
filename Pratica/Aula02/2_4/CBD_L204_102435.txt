@@ -1,0 +1,45 @@
+
+
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------------< com.cbd:lab_204_d >--------------------------
+[INFO] Building lab_204_d 1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- exec-maven-plugin:3.1.0:java (default-cli) @ lab_204_d ---
+Numero de localidades distintas: 5
+
+#############################################################################
+
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------------< com.cbd:lab_204_d >--------------------------
+[INFO] Building lab_204_d 1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- exec-maven-plugin:3.1.0:java (default-cli) @ lab_204_d ---
+Queens -> 738
+Staten Island -> 158
+Manhattan -> 1883
+Brooklyn -> 684
+Bronx -> 309
+
+###########################################################################
+
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------------< com.cbd:lab_204_d >--------------------------
+[INFO] Building lab_204_d 1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- exec-maven-plugin:3.1.0:java (default-cli) @ lab_204_d ---
+Nome de restaurantes contendo Steakhouse no nome:
+	 -> Jake'S Steakhouse
+	 -> Morton'S Steakhouse
+	 -> Keens Steakhouse
+	 -> Sammy'S Steakhouse
+	 -> Parrilla Latina Steakhouse
+	 -> Arirang Hibachi Steakhouse
+	 -> Frankie & Johnnies Steakhouse
+	 -> Peter Luger Steakhouse
+

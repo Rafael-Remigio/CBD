@@ -3,19 +3,14 @@ package com.cbd;
 import static com.mongodb.client.model.Filters.*;
 
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import org.slf4j.LoggerFactory;
 
-import org.bson.BsonDocument;
-import org.bson.BsonInt64;
 import org.bson.Document;
 import org.bson.conversions.Bson;
-import org.bson.types.ObjectId;
 import static com.mongodb.client.model.Sorts.descending;
 
 import com.mongodb.MongoClientSettings;

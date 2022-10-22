@@ -37,6 +37,13 @@ public class MongoTesting {
         String uri = "mongodb://localhost:8765";
         updateCats(uri);
     }
+    private static void CreateIndexes(String uri){
+
+
+        
+
+    }
+
 
 
     private static void testingFind(String uri) {

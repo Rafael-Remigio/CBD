@@ -14,7 +14,7 @@ O output da criação e testagem está no ficheiro **IndexesOutput.txt**
 
 ## 2_4 c)
 
-Escolhi fazer as queries número (foram escolhidas a sorte)
+Escolhi fazer as queries número (foram escolhidas a sorte) Encontran-se no projecto maven **find_queries_java/**
 
 * 15
 * 9

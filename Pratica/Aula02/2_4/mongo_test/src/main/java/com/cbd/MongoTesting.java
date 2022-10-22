@@ -15,6 +15,9 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.mongodb.MongoClientSettings;
+import com.mongodb.MongoCommandException;
+import com.mongodb.client.model.IndexOptions;
+import com.mongodb.client.model.Indexes;
 import com.mongodb.MongoException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -35,17 +38,75 @@ public class MongoTesting {
         
         // Replace the uri string with your MongoDB deployment's connection string
         String uri = "mongodb://localhost:8765";
-        updateCats(uri);
-    }
-    private static void CreateIndexes(String uri){
-
-
-        
-
+        testTimes(uri);
     }
 
+    private static void testTimes(String uri){
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDatabase database = mongoClient.getDatabase("cbd");
+            MongoCollection<Document> collection = database.getCollection("restaurants");
+
+            // Test the time for localidade Query
+            long startTime = System.currentTimeMillis();
+            FindIterable<Document> docs = collection.find(eq("localidade", "Bronx"));
+            long endTime = System.currentTimeMillis();
+            System.out.println("Total execution time for find by location query was: " + (endTime - startTime));
 
 
+
+            // Test the time for localidade Query
+            startTime = System.currentTimeMillis();
+            docs = collection.find(eq("gastronomia", "Bakery"));
+            endTime = System.currentTimeMillis();
+            System.out.println("Total execution time for find by gastronomia query was: " + (endTime - startTime));
+
+            Bson filter = text("Shop");
+            // Test time for text Search Index
+            startTime = System.currentTimeMillis();
+            docs = collection.find(filter);
+            endTime = System.currentTimeMillis();
+            System.out.println("Total execution time for find by location query was: " + (endTime - startTime));
+
+             for(Document doc : docs) {
+                //access documents e.g. doc.get()
+                System.out.println(doc.toJson());
+            }
+        }
+    }
+
+
+
+    // Function used to test the creation of indexes
+    private static void createIndexes(String uri){
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDatabase database = mongoClient.getDatabase("cbd");
+            MongoCollection<Document> collection = database.getCollection("restaurants");
+
+            String resultCreateIndex = collection.createIndex(Indexes.ascending("localidade"));
+
+            System.out.println("Created index " + resultCreateIndex);
+            
+            resultCreateIndex = collection.createIndex(Indexes.ascending("gastronomia"));
+            System.out.println("Created index " + resultCreateIndex);
+
+            // Text Field indexes
+
+            try {
+                resultCreateIndex = collection.createIndex(Indexes.text("nome"));
+                System.out.println(String.format("Index created: %s", resultCreateIndex));
+            } catch (MongoCommandException e) {
+                if (e.getErrorCodeName().equals("IndexOptionsConflict"))
+                    System.out.println("there's an existing text index with different options");
+                else{
+                    System.out.println(e);
+                }
+            }
+
+        }
+    }
+
+
+    // Function used to test find queries
     private static void testingFind(String uri) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             MongoDatabase database = mongoClient.getDatabase("cbd");
@@ -79,7 +140,7 @@ public class MongoTesting {
         }
     }
 
-
+    // Function used to test Insert queries
     private static void testInsert(String uri,int numCats) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             
@@ -126,6 +187,7 @@ public class MongoTesting {
         }
     }
 
+    // Function used to test Update queries
     private static void updateCats(String uri) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             

@@ -9,3 +9,7 @@ Output do programa encontra-se no ficheiro **exemploCRUD.txt**
 ## 2_4 b)
 
 Funçoes para criar e testar indexes estão também no projecto maven mongo_test
+
+O output da criação e testagem está no ficheiro **IndexesOutput.txt**
+
+

@@ -1,0 +1,54 @@
+Neste exercicio eu crei a coleção "cats" que tem como objetivo ser um dataset referente à gestãp de um veterinário de gatos
+
+Para a criação e população deste dataset eu criei um script em python (tbm podia ter feito isto em java mas dava mais trabalho e é so para gerar gatos aleatórios)
+
+Visto ser só preciso uma tabela para cada animal e existirem muito raramente relações n--m, uma base de dados baseada em documentos adequa-se a este uso
+
+Exemplo de um gato:
+
+{
+	"_id" : ObjectId("6355a26ed50ec3555ac3f725"),
+	"name" : "BONITA",
+	"breed" : "British Shorthair",
+	"color" : "cinnamon",
+	"birthYear" : 2019,
+	"weight" : 6,
+	"Diet" : [
+		"Sensitive Skin & Stomach Lamb & Rice Formula",
+		"Development Chicken & Liver Entrée Classic Wet Cat Food"
+	],
+	"diseases" : [
+		{
+			"nome" : "Feline Lower Urinary Tract Diseases (FLUTD)",
+			"discoveryYear" : 2021,
+			"symptoms" : [
+				"Pain",
+				"Blood in Urine",
+				"Frequent urination"
+			]
+		},
+		{
+			"nome" : "Heartworms",
+			"discoveryYear" : 2019,
+			"symptoms" : [
+				"Weight Loss",
+				"Lethargy"
+			]
+		},
+		{
+			"nome" : "Eye Problems",
+			"discoveryYear" : 2020,
+			"symptoms" : [
+				"Dizziness"
+			]
+		}
+	],
+	"owner" : {
+		"name" : "Jarret Wall",
+		"city" : "Beja",
+		"phone" : "948037927"
+	}
+}
+
+
+

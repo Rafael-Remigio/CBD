@@ -21,3 +21,7 @@ Escolhi fazer as queries número (foram escolhidas a sorte) Encontran-se no proj
 * 14
 * 11
 * 18
+
+## 2_4 d) 
+
+Ficheiro com o output do programa chama-se **CBD_L204_102435.txt**, as funções encontram-se implementadas no projecto maven **lab_204_d**

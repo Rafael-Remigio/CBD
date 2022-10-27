@@ -40,7 +40,11 @@ public class App
             //findAdultCatsCity(mongoClient,"Viseu");
 
 
-            findCatsWith(mongoClient,"Eye Problems");
+            //findCatsWithSymptom(mongoClient,"Dizziness","Fever");
+            
+            //findBigOrangeCat(mongoClient,"orange");
+            
+            findWith2Symptoms(mongoClient,"Fever","Weight loss");
             mongoClient.close();
         }
     }
@@ -69,28 +73,85 @@ public class App
         
     }
 
-    private static void findCatsWith(MongoClient mongoClient,String disease) {
+    private static void findCatsWithSymptom(MongoClient mongoClient,String d1,String d2) {
         MongoDatabase database = mongoClient.getDatabase("cbd");
         MongoCollection<Document> collection = database.getCollection("cats");
 
 
 
         Bson projectionFields = Projections.fields(
-                Projections.include("name","birthYear","diseases.nome"),
+                Projections.include("name","birthYear","diseases.nome","diseases.symptoms"),
                 Projections.excludeId());
-                
+            
 
-        FindIterable<Document> docs = collection.find(and(eq("diseases.nome", disease))).projection(projectionFields);
+        
+
+        FindIterable<Document> docs = collection.find(and(eq("diseases.symptoms", d1),eq("diseases.symptoms", d2))).projection(projectionFields);
         System.out.println("\n\n");
 
 
         for(Document doc : docs) {
             //access documents e.g. doc.get()
             System.out.println(doc.toJson());
+            System.out.println();
+
         }
         
     }
 
     
+    private static void findBigOrangeCat(MongoClient mongoClient,String color) {
+        MongoDatabase database = mongoClient.getDatabase("cbd");
+        MongoCollection<Document> collection = database.getCollection("cats");
+
+
+
+        Bson projectionFields = Projections.fields(
+                Projections.include("name","owner.phone"),
+                Projections.excludeId());
+            
+
+        
+
+        FindIterable<Document> docs = collection.find(and(eq("color", color),eq("weight", 6))).projection(projectionFields);
+        System.out.println("\n\n");
+
+
+        for(Document doc : docs) {
+            //access documents e.g. doc.get()
+            System.out.println(doc.toJson());
+            System.out.println();
+
+        }
+        
+    }
+
+
+    private static void findWith2Symptoms(MongoClient mongoClient,String Sympton1,String Sympton2) {
+        MongoDatabase database = mongoClient.getDatabase("cbd");
+        MongoCollection<Document> collection = database.getCollection("cats");
+
+
+
+        Bson projectionFields = Projections.fields(
+                Projections.include("name","diseases"),
+                Projections.excludeId());
+            
+
+        
+
+        FindIterable<Document> docs = collection.find(elemMatch("diseases", and(eq("symptoms", Sympton1),eq("symptoms", Sympton2)))).projection(projectionFields);
+        System.out.println("\n\n");
+
+
+        for(Document doc : docs) {
+            //access documents e.g. doc.get()
+            System.out.println(doc.toJson());
+            System.out.println();
+
+        }
+        
+    }
+
 
 }

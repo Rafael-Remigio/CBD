@@ -56,16 +56,35 @@ Exemplo de um gato:
 
 
 
-Exercicio c)
+Exercicio c)     6 find queries implementadas no projecto maven "cats_queries"
 
-    6 find queries
-
-	findAdultCatsCity(city)
+	* findAdultCatsCity(city)
 
 		encontra todos os gatos adultos de uma certa cidade
 
 
-	findCatsWith(disease)
+	* encontrar todos os gatos com sintomas "Dizziness" e "Fever"  findCatsWithSymptom
 
-		encontra gatos com uma doença especifica
+		encontra gatos com dois sitomas especificos
 
+	* encontrar o nome dos gatos e o numero de telemovel dos donos que tem pelo "orange" e são acima do peso medio
+
+		findBigOrangeCat()
+
+	* encontrar todos os gatos que tem uma doença com 2 sintomas especificos
+
+		Exemplo em mongo cli
+			> db.cats.find({"diseases": {$elemMatch: {$and: [{"symptoms": "Fever"},{"symptoms": "Weight loss"}]}}},{"name":1,"diseases":1,_id:0}).count()
+
+		em java é a função findWith2Symptoms(Sympt1 , Sympt2)
+
+	* encontrar todos os gatos que o nome começa por "MR." e comem comida com "Turkey" e tem pelo menos uma doença descoberta depois de 2016
+
+		exemplo mongo cli
+			> db.cats.find({"name": {$regex: ".*MR. .*"},"Diet":{$regex: ".*Turkey.*"},"diseases.discoveryYear": {$gt: 2016}},{}).pretty()
+
+	* Usando o $where e verificando tamanho de arrays: Listar todos os cats que tem o doenças descobertas depois do ano de nascimento:
+
+		> db.cats.find( {"diseases": { $exists: true, $not: {$size: 0} } ,$expr: { $lt: [ "$birthYear" , "$diseases.discoveryYear" ] } } ).pretty()
+		// nao foi implementato em java porque parece mt longa
+		

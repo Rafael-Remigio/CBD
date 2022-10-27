@@ -1,6 +1,9 @@
 Neste exercicio eu crei a coleção "cats" que tem como objetivo ser um dataset referente à gestãp de um veterinário de gatos
 
-Para a criação e população deste dataset eu criei um script em python (tbm podia ter feito isto em java mas dava mais trabalho e é so para gerar gatos aleatórios)
+Para a criação e população deste dataset eu criei um script em python que permite a criação de centenas de gatos (tbm podia ter feito isto em java mas dava mais trabalho e é so para gerar gatos aleatórios)
+para usar so iniciar o servidor mongo com o port 8765 e correr o script
+    python3 generateCats.py <numberOfCats>
+
 
 Visto ser só preciso uma tabela para cada animal e existirem muito raramente relações n--m, uma base de dados baseada em documentos adequa-se a este uso
 
@@ -51,4 +54,18 @@ Exemplo de um gato:
 }
 
 
+
+
+Exercicio c)
+
+    6 find queries
+
+	findAdultCatsCity(city)
+
+		encontra todos os gatos adultos de uma certa cidade
+
+
+	findCatsWith(disease)
+
+		encontra gatos com uma doença especifica
 

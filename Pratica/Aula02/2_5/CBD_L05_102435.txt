@@ -56,14 +56,16 @@ Exemplo de um gato:
 
 
 
-Exercicio c)     6 find queries implementadas no projecto maven "cats_queries"
+Exercicio c)     6 find queries algumas foram implementadas no projecto maven "cats_queries"
 
 	* findAdultCatsCity(city)
 
 		encontra todos os gatos adultos de uma certa cidade
 
 
-	* encontrar todos os gatos com sintomas "Dizziness" e "Fever"  findCatsWithSymptom
+	* encontrar todos os gatos com sintomas "Dizziness" e "Fever"  
+
+		findCatsWithSymptom(spt1, spt2)
 
 		encontra gatos com dois sitomas especificos
 
@@ -88,3 +90,57 @@ Exercicio c)     6 find queries implementadas no projecto maven "cats_queries"
 		> db.cats.find( {"diseases": { $exists: true, $not: {$size: 0} } ,$expr: { $lt: [ "$birthYear" , "$diseases.discoveryYear" ] } } ).pretty()
 		// nao foi implementato em java porque parece mt longa
 		
+		
+Exercicio d) 6 aggregate Queries
+
+	* Querie que devolve as doenças mais comuns para cada raça de gato de  todos os gatos adultos (mais de 5 anos)
+
+		> db.cats.aggregate([{$match: {"birthYear": {$gt: 2017}}},{ $unwind: "$diseases" },{$group: {_id: {breed: "$breed",disease: "$diseases.nome"}, count:{$sum:1}}}])
+			{ "_id" : { "breed" : "Korn Ja", "disease" : "Constipation" }, "count" : 1 }
+			{ "_id" : { "breed" : "Burmilla", "disease" : "Fleas" }, "count" : 1 }
+			{ "_id" : { "breed" : "Mekong Bobtail", "disease" : "Feline Leukemia Virus" }, "count" : 1 }
+			{ "_id" : { "breed" : "Javanese", "disease" : "Diabetes" }, "count" : 2 }
+
+	* Querie que agrupa por sintomas comuns para gatos adultos e ordena dos mais comuns ao menos comuns
+
+		> db.cats.aggregate([{ $unwind: "$diseases" },{$unwind: "$diseases.symptoms"},{$group: {_id: "$diseases.symptoms",count:{$sum:1} }},{$sort: {count: -1}}]).pretty()
+			{ "_id" : "Weight loss", "count" : 322 }
+			{ "_id" : "Fever", "count" : 247 }
+			{ "_id" : "Diarrhea", "count" : 179 }
+			{ "_id" : "Frequent urination", "count" : 139 }
+			{ "_id" : "Change in appetite", "count" : 134 }
+
+	* Querie que agrupa os gatos de uma raçã e de uma especifica cidade, so mostrando os que tem mais de 2 gatos por cidade e não mostrando o valor da soma usando $project
+
+		> db.cats.aggregate([{$group: {_id: {breed: "$breed",city: "$owner.city"},count:{$sum:1} }},{$match: {count: {$gt: 2}}},{$project: {count: 0}}])
+			{ "_id" : { "breed" : "Savannah", "city" : "Bragança" } }
+			{ "_id" : { "breed" : "Selkirk Rex", "city" : "Guarda" } }
+			{ "_id" : { "breed" : "Asian Semi-longhair", "city" : "Santarém" } }
+			{ "_id" : { "breed" : "Dwarf cat, or Dwelf", "city" : "Lisbon" } }
+			{ "_id" : { "breed" : "Oriental Longhair", "city" : "Santarém" } }
+
+	* Querie que mostra todas as comidas que gatos com food allergies comem
+	
+		> db.cats.aggregate([{$match: {"diseases.nome": "Food Allergies" } },{ $unwind: "$Diet" },{$group: {_id: "$Diet"}}]).pretty()
+			{ "_id" : "Development Chicken Entrée Grain Free Classic Wet Cat Food" }
+			{ "_id" : "Development Chicken & Liver Entrée Classic Wet Cat Food" }
+			{ "_id" : "Hairball Management Chicken & Rice Formula" }
+			{ "_id" : "Indoor Salmon & Rice Formula" }
+
+	* Querie que mostra o peso medio dos gatos com certa doença
+
+		> db.cats.aggregate([{ $unwind: "$diseases" },{$match: {"birthYear": {$gt: 2017}}},{$group: {_id: "$diseases.nome", avaregeWeight: {$avg:"$weight"}}}]).pretty()
+			{ "_id" : "Constipation", "avaregeWeight" : 5.6875 }
+			{ "_id" : "Hyperthyroidism", "avaregeWeight" : 4.882352941176471 }
+			{ "_id" : "High-Rise Syndrome", "avaregeWeight" : 5.615384615384615 }
+			{ "_id" : "Heartworms", "avaregeWeight" : 4.916666666666667 }
+		
+	* Querie que mostra o numero de gatos de uma certa cor e cidade. Tem que ser mais de 10 gatos por cidade e estar ordenado por ordem decrescente
+
+		> db.cats.aggregate([{$group: {_id: {color:  "$color", city: "$owner.city"}, count:{$sum:1}}}, {$match: {count : {$gt: 10}}},{$sort: {count: -1} }])
+			{ "_id" : { "color" : "orange", "city" : "Évora" }, "count" : 17 }
+			{ "_id" : { "color" : "fawn", "city" : "Aveiro" }, "count" : 15 }
+			{ "_id" : { "color" : "red silver", "city" : "Aveiro" }, "count" : 15 }
+			{ "_id" : { "color" : "red", "city" : "Porto" }, "count" : 14 }
+			{ "_id" : { "color" : "sealpoint", "city" : "Portalegre" }, "count" : 13 }
+			{ "_id" : { "color" : "cream", "city" : "Beja" }, "count" : 12 }

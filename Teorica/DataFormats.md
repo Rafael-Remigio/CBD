@@ -44,7 +44,7 @@ These encoding libraries are very convenient, because they allow in-memory objec
 
 **Problems** 
 * The encoding usually **corresponds to a specific programming Language**, and reading it in another language is almost impossible. 
-* In order to read and use this data **we need to instantiate the object**, this is a **cumbersome** and also it could be a very big **Security Flaw**
+* In order to read and use this data **we need to instantiate the object**, this is **cumbersome** and also it could be a very big **Security Flaw**
 * They are meant for easy and fast encoding and decoding, so they they are **not good to ensure forward and backward compatibility**
 * **Some are not efficient in terms of size and Decode and Encode time** (ie. Java's built-in serialization)
 

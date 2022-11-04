@@ -183,3 +183,21 @@ Assuming that we have a Distributed System it will most likely be **Partition To
 ### Data Models in relation to CAP
 
 <img src= "images/CAP Theorem.png">
+
+# Types of NoSQL databases
+
+* **Core Types**
+    * Key-Value Stores
+    * Document Stores
+    * Column Stores
+    * Graph Databases
+* Non-Core Types
+    * Object Databases
+    * Native XML databases
+    * RDF stores
+
+### Data Connectivity of each DB Model
+
+<img src="images/Data Connectivity by DB.png">
+
+

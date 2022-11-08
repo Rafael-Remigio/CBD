@@ -201,3 +201,91 @@ Assuming that we have a Distributed System it will most likely be **Partition To
 <img src="images/Data Connectivity by DB.png">
 
 
+--------------------------------
+
+# Storage and Retrieval
+
+On the most fundamental level a database needs to do two things. **Store Data** and when you ask for data back, retrive it to you. All DBs do this but some are better at certain operations. Understanding these differences and Data Structures is important for selecting the best DB for your System.
+
+The CSV is a good demonstration of their importance
+- In a CSV the write/set function just appends to a file. This has very good performance, O(1) (many databases also use append-only data files for inserts)
+- The read/get function however will take O(n) and this is not so ideal in a database with lots of records
+(we can use an index to make reads faster but this will slow down the writes)
+
+## Hash Indexes
+
+Key-value stores are quite similar to the dictionary type that you can find in most
+programming languages, and which is usually implemented as a hash map (hash
+table). A simple key value Store were we append a file as the CSV example with a Key and a Value. This will have a O(n) lookup operation. Hash Indexes can greatly increase this time
+
+**Strategy**
+* A key value store works like a HashMap
+* A simple storage that keeps and in-memory hashmap to where all the keys are mapped in the data file by their offset. (Bitcask for example uses this, It's good in situations where the value for each key changes a lot)
+
+<img src="images/hash_Indexes.png">
+
+
+<sub>Storing a log of key-value pairs in a CSV-like format, indexed with an in-memory hash map</sub>
+
+
+
+### Managing disk Space 
+
+If we have a lot of key-value pairs in our Database our hashMap will grow huge and this will affect write performance and read performance and also storage may be an issue.
+
+How do we avoid eventually running out of disk space. A good solution is to **break the log into Segments** of a certain size and make writes in a new file
+
+* Creating Segments increases performance
+* Each segments contains writes to the DB during some period of time
+* We can then compact there files and throw away duplicate keys
+
+<img src="images/SegmentCompaction.png">
+
+<sub>Segment Compaction/Merging</sub>
+
+
+### Issues with HashIndexes
+* File Format -> text Formats are usually not very good, binary is good makes it unreadable for DB managers
+* Deleting Records -> We need to be careful when deleting records because of the merging and compaction proccess
+* Crash Recovery -> if the system is restarted the in memory hashMaps are lost
+* Partially written record -> The DB may crash and some records maybe only be half written
+* Concurrency Control -> Writes are in sequencial order
+
+### Append Only Logs design
+Advantages
+* Read Times are good with hashIndexes
+* Appending and segment merging in faster that random writes
+* Crash recovery is easier if segment files are write only
+
+Disavantages
+* Must fit HashTables is memory
+* Range Queries have very bad complexities
+* Deletion is also very hard to be achieved
+
+
+## SSTables based and LSM-Trees
+
+SST(Sorted String Tables) are **based on HashIndexes** but in this case the we can ensure that key value-pairs are unique and we can sort them by key
+
+We need to then ensure that a key only appears once in a compacted segment. To achieve this we use **LSM (Log-Structured Merges)** and produce a Tree out of the different segments. This will only keep the most recent value for each key
+
+<img src="images/LSM-Trees.png">
+
+
+Now all that we need to do is create and update our SST in correspondance with our merged Log.
+
+No need to keep all the key value Pairs in memory because we can use a **Sparse Index** and still keep reads very fast, and save memory
+
+<img src="images/SST-Table.png">
+
+The advantages over HashIndexes are
+* Merging is simpler and more efficient, even when files are bigger than available memory
+* no nee to keep an index of all the keys in memory
+
+* Writes and still very fast, because it is still append only
+* lower disk footprint
+
+Disavantages
+* A bit Slower reads but still very good read times
+* merging need to be done in a background proccess
+

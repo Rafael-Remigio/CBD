@@ -322,3 +322,63 @@ Another problem with B-Trees is the fact that multiple threads or proccesses are
 * Can save space by not storing the entire key and reducing the number of levels
 * Fractal Trees 
 
+
+## B-Trees vs SSTables and LSM-Trees
+
+| SST and LSM-Trees  | B-Trees |
+| :---        |    :----:   |
+| Faster for Writes    | Faster for Reads      |
+| Compaction of the logs can affect performance of reads and writes  | In B-Trees space is saved because a value is only stored in one place, where as in a LSM-Tree it can be in multiple segments before a Merge|
+
+## Indexes
+
+It it also very common to have secondary indexes in Databases.
+Both B-Trees and SSTables can be used as secondary indexes.
+
+The difference between a **Clustered Index** and **non-Clustered Index** is that in the first the key must be unique, and in the second in may no be unique. A **Clustered Index** refers to an index of the primary key. This way there can be only one Clustered Index
+
+A **Covering Index** instead of just storing a pointer to the data, it can store some data collumns as well
+
+There can also be **Multi-Column Indexes** and **Fuzzy Indexes**(Usefull for text Searching for example)
+
+## In-Memory Databases
+In oppose to writing data into disk, we can keep all the data in memory. 
+* Makes reads and writes way faster
+* Working with data that is harder to write on disk, such as Objects and Intances
+* Simpler to implement
+* We can write to disk pereodically saving time in this way
+
+
+This type of Databases are mostly user for caching or non-Important data
+
+
+# Transaction Processing and Transaction Analytics (OLTP vs OLAP)
+
+## Online Transaction Processing
+
+In the early days a write to a DataBase typically corresponds to a commercial transaction, that is why it is called transaction. The name stuck although nowadays a *transaction* is pretty much all kinds of changes to a Database.
+
+OLPT **controls and runs essential business tasks**, and contains all of the operational data.
+* DataBase for the Client to interact with
+
+## Online Analytic Processing
+
+DataBases also started being used more and more for data analytics. Usually these analytic queries need to scan a huge ammount of records.
+
+Contain data that helps planning and problem solving within the company. Data that can come from memory sources and various kinds of business activities
+* For Business Analysts and not for the client to interact with
+
+
+|  | OLTP  | OLAP |
+|:---   | :---        |    :----:   |
+| Main Read Pattern | Small number of record per query   | Aggregate over a large number of records  |
+| Main Write Pattern| Random-Access, low latency writes from user impact | Bulk import (**ETL**) or event Stream. Slow and contains a lot of records|
+|Primarily used by| End user/customer|Internal data analyst, for decision support|
+|What is this data|Latest State of Data|History of events that happened over time. Various kinds of business activities|
+|DataSet Size|GigaBytes to TeraBytes|TeraBytes to PetaBytes|
+|Inserts and Updates|Short and fast, initiated by the end user| Periodic long-running batch jobs|
+|Queries|Relatively standart and simple queries|Mostly Select Queries. Often complex queries with lots of aggregation|
+|DataBase Design| Highly normalized with many Tables|Typically denormalizes with fewer tables; Uses **Star and SnowFlake schemas**|
+|BackUps and Recovery|Complete BackUp of the Data combined witg incremental BackUps|Not as important as in OLTP. Some enviorments only reload the original data as a recovery method|
+|Storage|SQL,Document Databases|Column Oriented storage, (sometimes SQL), **Data Warehousing**|
+

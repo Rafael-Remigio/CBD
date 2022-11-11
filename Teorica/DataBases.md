@@ -289,3 +289,36 @@ Disavantages
 * A bit Slower reads but still very good read times
 * merging need to be done in a background proccess
 
+
+## B-Trees (Balanced Trees)
+
+Like SSTables, B-trees keep key value pairs sorted by key, but instead of a table it uses Balanced-Trees. Mostly used in Relatonal Databases.
+
+B-Trees break down the database into fixed sized blocks or pages and read or write one page/block at the time
+
+- The Tree always remains balanced. Usually it's an AVL or a red-black Tree
+- Search O(log(n))
+- Insert O(log(n))
+- Delete O(log(n))
+
+| Advantages  | Disavantages |
+| :---        |    :----:   |
+| Reads are O(log n) very fast    | Keeping the tree balanced takes processing resources       |
+| 256 TB in 4 level deep tree, very fast for reads   | Inserting and deleting can become slow operations        |
+Another Great advantage of Balanced Trees in the ease and effectivness of Indexes | Indexes will slow down write and delete times|
+Range Queries are very efficient and fast with proper indexing
+
+### WAL (Write Ahead Log)
+- Since B-Trees write/ovewrite data on their inserts, because of this if there is a crash it is harder to recover and we end up with a corrupted page or set of pages. To deal with this we can use a **Write Ahead Log (WAL)**
+- Consists of an Append only file that stores every modification applied to the database
+
+
+### Problems
+
+Another problem with B-Trees is the fact that multiple threads or proccesses are very problematic and almost impossible to implement. B-Trees need concurrency control. This way it is almost impossible to distribute a B-Tree and that is why Relational Databases are not distributed
+
+### Optimizations
+* Copy on write Scheme
+* Can save space by not storing the entire key and reducing the number of levels
+* Fractal Trees 
+

@@ -382,3 +382,69 @@ Contain data that helps planning and problem solving within the company. Data th
 |BackUps and Recovery|Complete BackUp of the Data combined witg incremental BackUps|Not as important as in OLTP. Some enviorments only reload the original data as a recovery method|
 |Storage|SQL,Document Databases|Column Oriented storage, (sometimes SQL), **Data Warehousing**|
 
+## OLAP and Data Warehousing
+
+OLTP systems need to be very fast and highly available. This way runninf analysis queries is going to slow them down.
+So we use a seperate database to perform these analysis queries. A **Data Warehouse**. Typically it is a read Only copy of all the data in the various OLTP Systems
+
+### **ETL**
+Data is **Extracted** from the OLTP databases, **Trasformed**, cleaned up and then **Loaded** into the database warehouse. 
+
+<center>
+<img src="images/ETL.png">
+</center>
+<br>
+
+### Star and SnowFlake Schema
+
+* **Star Schema** (Dimensional Modeling) -> The main entity is the fact Table where each row represents an event at a particular time. Columns are atributes, references(foreign keys) 
+
+<img src="images/StarSchema.png">
+
+* **SnowFlake Schema** (Dimensional Modeling) 
+    * Dimensions are normalized
+    * Data Storage and integrity issues are resolved
+    * it may take more time to perform queries and they are harder to create
+
+These Schemas make Queries way faster and simpler, such as aggregate and join queries. However denormalizing created repeated data
+
+### Issue with the StarSchema
+
+The Issue now is that to perform these queries we need to read an entire row of data. Even if that querie only uses 1 or 2 columns in a row, we need to read the all of the row to gather it.
+The Solution is **Column Oriented Storage**
+
+## Column Oriented Storage
+
+Instead of Storing all of the values from a row together, we store each column together. If each Column is it's single file/table we just need to query a single file.
+
+This need to have all of the rows of all the tables in the same in each column.
+<center>
+<img src="images/ColumnOrientedStorage.png">
+</center>
+
+<br>
+
+**Advantages**
+* Speed
+* Compression, because each column may have a lot of repeated values and this make binary compression easier
+* Sorting and Indexing can be achieved easier. This makes queries also faster
+
+**Disavantages**
+* Writing is very slow and harduos process
+* To make writing better we can use LSM-Trees(All the writes go to in-Memory Storage, then are merged and written in bulk)
+
+## Materialized Views and Data Cubes
+
+Data warehouse Queries usually use a lot of aggregations. To make these faster we can use **Chaching**. We can Cache an aggregation in a **Materialized View**
+
+When data Changes we update the Materialized View
+
+<img src="images/MaterializedView.png">
+
+<br>
+
+A **Data Cube** or an **OLAP Cube** is a special kind of materialized view, wich aggregates by different dimentions.
+<center>
+<img src="images/DataCube.png">
+</center>
+

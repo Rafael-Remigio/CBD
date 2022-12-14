@@ -1,0 +1,36 @@
+// NMEC:102435
+#1
+match (p)-[:ACTED_IN]->(m) , (p)-[:DIRECTED]->(m) return p.name,m.title
+#2
+match (p)-[:ACTED_IN]->(m:Movie) where  m.released > 2005  return p.name
+#3
+match (n)-[r]->(m) WITH n as n, m as m, COUNT(r) AS num where num > 1 return n,m 
+#4
+match (n)-[:REVIEWED]->(m:Movie), (p)-[:REVIEWED]->(m) return n.name,p.name,m.title
+#5
+match (p1)-[:ACTED_IN]->(m1) , (p2)-[:ACTED_IN]->(m1), (p1)-[:ACTED_IN]->(m2) ,(p2)-[:ACTED_IN]->(m2)  return p1,p2
+#6
+match (p)-[:ACTED_IN]->(m:Movie {title: "Apollo 13"}) return avg(m.released -p.born)
+#7
+match (p)-[:ACTED_IN]->(m) return m, round(avg(m.released -p.born),2) as ages order by ages DESC limit 10
+#8
+// this query language is awfull and i hate it, look at this ridiculous query
+match (p)-[:ACTED_IN]->(m) with  m, avg(m.released -p.born) as ages  with  min(ages) as minimum match (p)-[:ACTED_IN]->(m) with m,avg(m.released -p.born) as ages2 , minimum where ages2 = minimum match (p)-[:ACTED_IN]->(m) return m,p
+#9
+MATCH p=shortestPath( (bacon:Person {name:"John Cusack"})-[*]-(meg:Person {name:"Demi Moore"}) ) RETURN p
+#10
+MATCH p=shortestPath( (bacon:Person {name:"Keanu Reeves"})-[*]-(meg:Person {name:"Tom Cruise"}) ) RETURN length(p)
+#11
+match p=shortestPath((p1:Person)-[*]-(p2:Person)) WHERE p1.name STARTS WITH "Jim" AND p2.name STARTS WITH "Kevin" with min(length(p)) as minLength return minLength
+#12
+MATCH (per:Person)-[*2]-(jim:Person {name:"Jim Cash"}) return per
+#13
+match p=shortestPath((p1:Person)-[*]-(p2:Person {name: "Kevin Bacon"})) where p1 <> p2 with max(length(p)) as maxLength return maxLength
+#14
+match p=shortestPath((p1:Person)-[*]-(p2:Person)) where p1 <> p2 with max(length(p)) as maxLength return maxLength
+#15
+match p=shortestPath((p1:Person)-[*]-(p2:Person)) where p1 <> p2 with p1,p2,length(p) as minLength, p return count(p), minLength
+#16
+match p=shortestPath((p1:Person)-[:ACTED_IN*]-(p2:Person)) where p1 <> p2 with p1,p2,length(p) as minLength, p order by minLength return p1,p2, minLength limit 10
+#17
+match (p1:Person)-[r:ACTED_IN]-(m:Movie) UNWIND r.roles AS x  with  r,m,x  where x Starts with "Dr." return r,m,x

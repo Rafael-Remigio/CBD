@@ -9,6 +9,8 @@
 *.exe
 *.o
 *.so
+*.AppImage
+*.swp
 
 # Packages #
 ############

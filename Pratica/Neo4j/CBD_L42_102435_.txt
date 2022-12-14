@@ -34,3 +34,12 @@ match p=shortestPath((p1:Person)-[*]-(p2:Person)) where p1 <> p2 with p1,p2,leng
 match p=shortestPath((p1:Person)-[:ACTED_IN*]-(p2:Person)) where p1 <> p2 with p1,p2,length(p) as minLength, p order by minLength return p1,p2, minLength limit 10
 #17
 match (p1:Person)-[r:ACTED_IN]-(m:Movie) UNWIND r.roles AS x  with  r,m,x  where x Starts with "Dr." return r,m,x
+#18
+// Par filme pessoa que tem relações com um filme mas não atuaram no filme
+match (p1:Person)-[r]->(m:Movie) where not (p1:Person)-[:ACTED_IN]->(m:Movie) return m,p1
+#19
+// Encontrar todos os atores dos filmes que tiveram uma review com mais de 80
+match (p1:Person)-[r:REVIEWED]->(m:Movie) where r.rating > 80 match (p2)-[:ACTED_IN]->(m) return m,p2
+#20
+// Todos os Atores a 6 saltos do Tom Hanks e estiveram em pelo menos 3 filmes
+MATCH (bacon:Person {name:"Tom Hanks"})-[:ACTED_IN*6]-(p) with p as actor match (actor)-[:ACTED_IN]->(m1:Movie) ,  (actor)-[:ACTED_IN]->(m2:Movie), (actor)-[:ACTED_IN]->(m3:Movie) where m1 <> m2 <> m3 RETURN DISTINCT actor

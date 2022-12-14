@@ -1,0 +1,16 @@
+[ 
+  {"user": "user7@bot.com ", "video_id": "19e006d0-0d6d-11ea-9d48-0b1cc2ad2f9d", "real_timestamp": "2022-11-30 21:40:24.261Z", "video_timestamp": 0, "action": "Play", "id": "98e32751-70f7-11ed-ab27-35c20f9ddb86"},
+{"user": "clau@sof.pt", "video_id": "1baab4b0-0d6d-11ea-9d48-0b1cc2ad2f9d", "real_timestamp": "2022-11-30 21:40:24.271Z", "video_timestamp": 69, "action": "Stop", "id": "98e4adf1-70f7-11ed-ab27-35c20f9ddb86"},
+ {"user": "clau@sof.pt", "video_id": "1baab4b0-0d6d-11ea-9d48-0b1cc2ad2f9d", "real_timestamp": "2022-11-30 21:40:24.266Z", "video_timestamp": 0, "action": "Play", "id": "98e3eaa1-70f7-11ed-ab27-35c20f9ddb86"},
+{"user": "ds@test.com", "video_id": "3ffcc5a0-0d4b-11ea-9d48-0b1cc2ad2f9d", "real_timestamp": "2022-11-30 21:40:24.254Z", "video_timestamp": 310, "action": "Play", "id": "98e215e1-70f7-11ed-ab27-35c20f9ddb86"},
+{"user": "ds@test.com", "video_id": "3ffcc5a0-0d4b-11ea-9d48-0b1cc2ad2f9d", "real_timestamp": "2022-11-30 21:40:24.249Z", "video_timestamp": 310, "action": "Pause", "id": "98e15291-70f7-11ed-ab27-35c20f9ddb86"},
+ {"user": "ds@test.com", "video_id": "3ffcc5a0-0d4b-11ea-9d48-0b1cc2ad2f9d", "real_timestamp": "2022-11-30 21:40:24.243Z", "video_timestamp": 0, "action": "Play", "id": "98e06831-70f7-11ed-ab27-35c20f9ddb86"},
+{"user": "ds@test.com", "video_id": "1f1a11e0-0d6d-11ea-9d48-0b1cc2ad2f9d", "real_timestamp": "2022-11-30 21:40:24.298Z", "video_timestamp": 349, "action": "Stop", "id": "98e8cca1-70f7-11ed-ab27-35c20f9ddb86"},
+{"user": "ds@test.com", "video_id": "1f1a11e0-0d6d-11ea-9d48-0b1cc2ad2f9d", "real_timestamp": "2022-11-30 21:40:24.293Z", "video_timestamp": 200, "action": "Play", "id": "98e80951-70f7-11ed-ab27-35c20f9ddb86"},
+{"user": "ds@test.com", "video_id": "1f1a11e0-0d6d-11ea-9d48-0b1cc2ad2f9d", "real_timestamp": "2022-11-30 21:40:24.288Z", "video_timestamp": 200, "action": "Pause", "id": "98e74601-70f7-11ed-ab27-35c20f9ddb86"},
+{"user": "ds@test.com", "video_id": "1f1a11e0-0d6d-11ea-9d48-0b1cc2ad2f9d", "real_timestamp": "2022-11-30 21:40:24.282Z", "video_timestamp": 150, "action": "Play", "id": "98e65ba1-70f7-11ed-ab27-35c20f9ddb86"},
+ {"user": "ds@test.com", "video_id": "1f1a11e0-0d6d-11ea-9d48-0b1cc2ad2f9d", "real_timestamp": "2022-11-30 21:40:24.276Z", "video_timestamp": 0, "action": "Play", "id": "98e59850-70f7-11ed-ab27-35c20f9ddb86"},
+ {"user": "pedro@f.ag", "video_id": "20a1ea60-0d6d-11ea-9d48-0b1cc2ad2f9d", "real_timestamp": "2022-11-30 21:40:24.307Z", "video_timestamp": 50, "action": "Stop", "id": "98ea2c31-70f7-11ed-ab27-35c20f9ddb86"},
+ {"user": "pedro@f.ag", "video_id": "20a1ea60-0d6d-11ea-9d48-0b1cc2ad2f9d", "real_timestamp": "2022-11-30 21:40:24.303Z", "video_timestamp": 0, "action": "Start", "id": "98e98ff1-70f7-11ed-ab27-35c20f9ddb86"}
+
+]

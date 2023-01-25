@@ -1,0 +1,126 @@
+# 1 todos os livros com pelo menos uma review de 10
+
+match (u:User)-[r:read]->(b:Book) where r.rating = 10 return b.name
+
+"Night Sins"
+"Adressat unbekannt."
+(...)
+
+
+# 2 retornar 3 Users que leram mais de 5 livros
+
+match (u:User)-[r:read]->(b:Book) where r.rating = 10 with u as user, count(b) as cou where cou > 5 return user.name limit 3
+
+"276746"
+"276747"
+(...)
+
+# 3 retornar todos os livros escritos por autores que tem o nome  "George"
+
+│{"ISBN":"0380809389","Title":"Murder Carries a Torch : A Southern Sist│
+│ers Mystery (Southern Sisters Mysteries (Paperback))"}                │
+├──────────────────────────────────────────────────────────────────────┤
+│{"ISBN":"0380801493","Title":"Murder Shoots the Bull : A Southern Sist│
+│ers Mystery (Southern Sisters Mysteries (Paperback))"}                │
+├──────────────────────────────────────────────────────────────────────┤
+│{"ISBN":"0380793660","Title":"Murder Gets a Life: : A Southern Sisters│
+│ Mystery (Southern Sisters Mysteries (Paperback))"}                   │
+
+
+
+# 4 caminho mais curto entre Geoge Orwell e Scott Turow
+
+MATCH p=shortestPath( (orwell:Author {Name:"George Orwell"})-[*]-(scott:Author {Name:"Scott Turow"}) ) RETURN p
+
+╒══════════════════════════════════════════════════════════════════════╕
+│"p"                                                                   │
+╞══════════════════════════════════════════════════════════════════════╡
+│[{"Name":"George Orwell"},{},{"ISBN":"0156767503","Title":"The Road to│
+│ Wigan Pier"},{"ISBN":"0156767503","Title":"The Road to Wigan Pier"},{│
+│},{"Name":"Harvest Books"},{"Name":"Harvest Books"},{},{"ISBN":"015600│
+│1314","Title":"The Name of the Rose: including Postscript to the Name │
+│of the Rose"},{"ISBN":"0156001314","Title":"The Name of the Rose: incl│
+│uding Postscript to the Name of the Rose"},{},{"Name":"Umberto Eco"},{│
+│"Name":"Umberto Eco"},{},{"ISBN":"0446344109","Title":"Name of the Ros│
+│e"},{"ISBN":"0446344109","Title":"Name of the Rose"},{},{"Name":"Warne│
+│r Books"},{"Name":"Warner Books"},{},{"ISBN":"0446604402","Title":"The│
+│ Laws of Our Fathers"},{"ISBN":"0446604402","Title":"The Laws of Our F│
+│athers"},{},{"Name":"Scott Turow"}]                                   │
+└──────────────────────────────────────────────────────────────────────┘
+
+# 5 todas as editoras que trabalharam com "Jack Canfield" 
+
+MATCH (n:Author)-[:wrote]->(b:Book) where n.Name = "Jack Canfield" with n as jack, b match (p)-[:published]->(b) return p
+
+
+# 6 media de todas as reviews feitas
+
+5.71638(...)
+
+# 7 todos os autores a 4 saltos do george orwell
+
+MATCH (per:Author)-[*4]-(george:Author {Name:"George Orwell"}) return per
+
+╒══════════════════════════════════════╕
+│"per"                                 │
+╞══════════════════════════════════════╡
+│{"Name":"Hervé Tullet"}               │
+├──────────────────────────────────────┤
+│{"Name":"Gaite Carmen Martin"}        │
+├──────────────────────────────────────┤
+│{"Name":"Ana Maria Matute"}           │
+├──────────────────────────────────────┤
+│{"Name":"Eugeni Perea Simón"}         │
+├──────────────────────────────────────┤
+│{"Name":"Marcel Ayme"}                │
+├──────────────────────────────────────┤
+
+# 8 todas as pessoas que leram um livro da "Oxford University Press"
+
+MATCH (n:Publisher)-[:published]->(b) where n.Name="Oxford University Press" with b match (u:User)-[:read]->(b) return u
+
+
+# 9 Numero de livros publicados por cada editora por ordem decrescente
+
+MATCH (n:Publisher)-[:published]->(b) return n,count(b) as books order by books desc 
+
+╒══════════════════════════════════════════════════════════════════════╤═══════╕
+│"n"                                                                   │"books"│
+╞══════════════════════════════════════════════════════════════════════╪═══════╡
+│{"Name":"Ballantine Books"}                                           │862    │
+├──────────────────────────────────────────────────────────────────────┼───────┤
+│{"Name":"Pocket"}                                                     │856    │
+├──────────────────────────────────────────────────────────────────────┼───────┤
+│{"Name":"Bantam Books"}                                               │691    │
+├──────────────────────────────────────────────────────────────────────┼───────┤
+│{"Name":"Harlequin"}                                                  │674    │
+├──────────────────────────────────────────────────────────────────────┼───────┤
+│{"Name":"Berkley Publishing Group"}                                   │649    │
+├──────────────────────────────────────────────────────────────────────┼───────┤
+│{"Name":"Warner Books"}                                               │573    │
+├──────────────────────────────────────────────────────────────────────┼───────┤
+│{"Name":"Penguin Books"}                                              │528    │
+
+
+
+# 10 Numero de livros escritos por cada escritor
+
+╒════════════════════════════════════════════════════╤═══════╕
+│"n"                                                 │"books"│
+╞════════════════════════════════════════════════════╪═══════╡
+│{"Name":"Mark P. O. Morford"}                       │2      │
+├────────────────────────────────────────────────────┼───────┤
+│{"Name":"Richard Bruce Wright"}                     │1      │
+├────────────────────────────────────────────────────┼───────┤
+│{"Name":"Carlo D'Este"}                             │1      │
+├────────────────────────────────────────────────────┼───────┤
+│{"Name":"Gina Bari Kolata"}                         │1      │
+├────────────────────────────────────────────────────┼───────┤
+│{"Name":"Amy Tan"}                                  │19     │
+├────────────────────────────────────────────────────┼───────┤
+│{"Name":"Robert Cowley"}                            │1      │
+├────────────────────────────────────────────────────┼───────┤
+│{"Name":"Scott Turow"}                              │13     │
+├────────────────────────────────────────────────────┼───────┤
+│{"Name":"David Cordingly"}                          │2      │
+├────────────────────────────────────────────────────┼───────┤

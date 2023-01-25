@@ -1,0 +1,81 @@
+// command to load from csv file
+// LOAD CSV with headers from "file:///git_selection.csv" as line with line return line
+
+// a), b)
+
+//  Person (real_name, svn_id)
+//  Project (name)
+//  Company (name)
+
+//  CREATE CONSTRAINT FOR (project:Project) REQUIRE project.project_name IS UNIQUE;
+//  CREATE CONSTRAINT FOR (p:Person) REQUIRE p.real_name IS UNIQUE;
+//  CREATE CONSTRAINT FOR (organization:Organization) REQUIRE organization.org_name IS UNIQUE;
+
+//  LOAD CSV WITH HEADERS
+//  FROM "file:///git_selection.csv" AS line
+//  MERGE (contributor:Person {real_name: line.real_name})
+//  SET contributor.svn_id = []
+//  MERGE (project:Project {project_name: line.project_name})
+//  MERGE (organization:Organization {org_name: line.organization})
+
+//  LOAD CSV WITH HEADERS
+//  FROM "file:///git_selection.csv" AS line
+//  MATCH (contributor:Person {real_name: line.real_name}),(project:Project {project_name:v.project_name})
+//  set contributor.svn_id = contributor.svn_id + line.svn_id
+//  CREATE (contributor)-[:CONTRIBUTED {commit_num: line.num, role_on_project: line.role_on_project}]->(project)
+//  MATCH (contributor:Person {real_name: line.real_name}),(organization:Organization {org_name : line.organization})
+//  CREATE (contributor)-[:EMPLOYED_BY]->(organization)
+
+// Remove duplicates
+//
+// match (n:Person)
+// unwind n.svn_id as x
+// with distinct x, n
+// with collect(x) as here, n
+// set n.svn_id = here
+
+
+// example of person 
+//  {
+//   "identity": 2912,
+//   "labels": [
+//     "Person"
+//   ],
+//   "properties": {
+// "svn_id": [
+//       "ab0625",
+//       "ab0633",
+//       "ab1632",
+//       "ab1651",
+//       "ab2578"
+//     ],
+// "real_name": "Abe White"
+//   }
+// }
+
+#1
+match (n:Person) return n
+
+#2
+match (n:Person) return n.real_name
+
+#3
+match (contributor:Person)-[contributed:CONTRIBUTED]->(p:Project) return p
+
+#4
+match (contributor:Person)-[contributed:CONTRIBUTED]->(p:Project) with contributor , count(DISTINCT p) as c return contributor , c
+
+#5
+match (contributor:Person)-[contributed:CONTRIBUTED]->(p:Project) with contributor , count(DISTINCT p) as c return contributor , c ORDER BY c DESC
+
+#6
+match (contributor:Person)-[contributed:CONTRIBUTED]->(p:Project) with p , count(DISTINCT contributor) as c return p , c
+
+#7 
+MATCH (contributor:Person)-[contributed:CONTRIBUTED]->(p:Project) WHERE contributed.role_on_project = "Committer" WITH p, COUNT(DISTINCT contributor) as c RETURN p, c
+
+#8
+match (c:Person)-[:CONTRIBUTED]->(p:Project) where any(id in c.svn_id where id = "atm" ) with c as atm ,p match (c2:Person)-[:CONTRIBUTED]->(p) WHERE c2 <> atm return   distinct c2 , atm.real_name 
+
+#9
+match (c:Person)-[r:CONTRIBUTED]->(p:Project) where r.role_on_project = "PMC" and any(id in c.svn_id where id = "atm" ) with c as atm ,p match (c2:Person)-[r2:CONTRIBUTED]->(p) WHERE c2 <> atm and r2.role_on_project = "Committer" return   distinct c2 , atm.real_name 
